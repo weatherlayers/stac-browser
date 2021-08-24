@@ -1,4 +1,5 @@
 import URI from 'urijs';
+import ConfigFile from '../config';
 
 const commonFileNames = ['catalog', 'collection', 'item'];
 
@@ -8,6 +9,14 @@ const commonFileNames = ['catalog', 'collection', 'item'];
  * @class
  */
 export default class Utils {
+
+	static config() {
+		try {
+			return CONFIG;
+		} catch (error) {
+			return ConfigFile;
+		}
+	}
 
 	/**
 	 * Checks whether a variable is a real object or not.

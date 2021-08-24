@@ -67,7 +67,6 @@
       "node": true
     },
     "globals": {
-      "STAC_BROWSER_VERSION": "readonly",
       "CONFIG": "readonly"
     },
     "extends": [

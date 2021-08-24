@@ -43,6 +43,8 @@ import { Formatters } from '@radiantearth/stac-fields';
 import Sidebar from './components/Sidebar.vue';
 import StacHeader from './components/StacHeader.vue';
 
+import Utils from './utils';
+
 Vue.use(Clipboard);
 
 Vue.use(AlertPlugin);
@@ -67,24 +69,26 @@ for(let name in Formatters) {
   }
 }
 
+let config = Utils.config();
+
 // Setup router
 Vue.use(VueRouter);
 const router = new VueRouter({
-  mode: CONFIG.historyMode,
-  base: CONFIG.pathPrefix,
+  mode: config.historyMode,
+  base: config.pathPrefix,
   routes,
 });
 
 // Pass Config through from props to vuex
 let Props = {};
 let Watchers = {};
-for(let key in CONFIG) {
+for(let key in config) {
   Props[key] = {
-    default: CONFIG[key]
+    default: config[key]
   }
   Watchers[key] = function(newValue) {
     this.$store.commit('config', {
-      key: newValue
+      [key]: newValue
     });
   };
 }
@@ -113,7 +117,8 @@ export default {
     ...mapState(['title']),
     ...mapGetters(['displayCatalogTitle']),
     browserVersion() {
-      return STAC_BROWSER_VERSION;
+      const { version } = require('../package.json');
+      return version;
     }
   }
 }

@@ -9,7 +9,7 @@ Vue.use(Vuex);
 // Local settings (e.g. for currently loaded STAC entity)
 const localDefaults = {
   url: '',
-  title: CONFIG.catalogTitle,
+  title: Utils.config().catalogTitle,
   data: null,
   valid: null,
   apiCollections: [],
@@ -22,9 +22,9 @@ const localDefaults = {
 
 export default new Vuex.Store({
   strict: true,
-  state: Object.assign(CONFIG, localDefaults, {
+  state: Object.assign({}, Utils.config(), localDefaults, {
     // Global settings
-    allowSelectCatalog: !CONFIG.catalogUrl,
+    allowSelectCatalog: !Utils.config().catalogUrl,
     stacIndex: [],
     database: {},
     queue: [],

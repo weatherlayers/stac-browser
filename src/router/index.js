@@ -1,4 +1,5 @@
 import Browse from '../views/Browse.vue';
+import Utils from '../utils'
 
 let routes = [
   {
@@ -8,7 +9,7 @@ let routes = [
   }
 ];
 
-if (CONFIG.allowExternalAccess) {
+if (Utils.config().allowExternalAccess) {
   routes.push({
     path: "/external/(.*)",
     name: "browseExternal",
@@ -21,7 +22,7 @@ if (CONFIG.allowExternalAccess) {
   });
 }
 
-if (!CONFIG.catalogUrl) {
+if (!Utils.config().catalogUrl) {
   routes.push({
     path: "/",
     name: "select",
