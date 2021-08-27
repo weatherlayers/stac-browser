@@ -12,6 +12,7 @@ const mergedConfig = Object.assign({}, configFromFile, argv);
 
 module.exports = {
 	publicPath: mergedConfig.pathPrefix,
+	transpileDependencies: ['stac-layer'],
 	chainWebpack: webpackConfig => {
 		webpackConfig.plugin('define').tap(args => {
 			args[0].CONFIG = JSON.stringify(mergedConfig);

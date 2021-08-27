@@ -3,6 +3,7 @@ import Vuex from "vuex";
 import axios from "axios";
 import Utils from '../utils'
 import STAC from '../stac';
+import bs58 from 'bs58';
 
 Vue.use(Vuex);
 
@@ -25,6 +26,7 @@ export default new Vuex.Store({
   state: Object.assign({}, Utils.config(), localDefaults, {
     // Global settings
     allowSelectCatalog: !Utils.config().catalogUrl,
+    redirectUrl: null,
     stacIndex: [],
     database: {},
     queue: [],
@@ -191,10 +193,6 @@ export default new Vuex.Store({
       }
       return absoluteUrl;
     },
-    getTileSource: (state, getters) => assetHref => {
-      const proxiedUri = getters.getTileProxiedUrl(assetHref);
-      return state.tileSourceTemplate.replace("{ASSET_HREF}", proxiedUri);
-    },
     getTileProxiedUrl: state => url => {
       // Tile sources can be proxied differently than other assets, replace any asset HREF with the proxied address.
       // Note: This will occur after the STAC_PROXY_URL is used.
@@ -304,6 +302,18 @@ export default new Vuex.Store({
     },
     setApiItemsFilter(state, filter) {
       state.apiItemsFilter = filter;
+    },
+    redirectLegacyUrl(state, path) {
+      if (!path) {
+        return;
+      }
+      let parts = path.split('/').filter(part => part.length > 0 && part !== 'item' && part !== 'collection');
+      if (parts.length > 0 && parts.every(part => part.match(/^[123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ]+$/))) {
+        let newPath = bs58.decode(parts[parts.length-1]).toString();
+        if (newPath) {
+          state.redirectUrl = '/' + newPath;
+        }
+      }
     }
   },
   actions: {
@@ -355,6 +365,11 @@ export default new Vuex.Store({
           cx.commit('loaded', {url, data});
         } catch (error) {
           cx.commit('errored', {url, error});
+
+          // Redirect legacy URLs
+          if (cx.state.redirectLegacyUrls && fromBrowser && show) {
+            cx.commit('redirectLegacyUrl', path);
+          }
         }
       }
 
