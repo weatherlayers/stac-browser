@@ -1,0 +1,18 @@
+#stac-browser {
+    .card:not(.catalog-card):not(.item-card) {
+        background: none;
+    }
+
+    .catalog-card, .item-card {
+        background: #fff;
+        box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1); // Tailwind .shadow
+    }
+
+    .accordion > .card > .card-header > button:focus {
+        box-shadow: none;
+    }
+
+    .intro {
+        display: none;
+    }
+}
