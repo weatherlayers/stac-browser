@@ -1,0 +1,22 @@
+steps:
+  - name: node
+    args:
+      - install
+    entrypoint: npm
+  - name: node
+    args:
+      - run
+      - build
+      - '--'
+      - '--catalogUrl="https://catalog.weatherlayers.com/catalog"'
+      - '--catalogUrlParams="access_token=9djqrhlmAjv2Mv2z2Vwz"'
+      - '--historyMode=hash'
+    entrypoint: npm
+  - name: gcr.io/cloud-builders/gsutil
+    args:
+      - '-m'
+      - rsync
+      - '-r'
+      - '-d'
+      - ./dist
+      - 'gs://$_STORAGE_BUCKET'
