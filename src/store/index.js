@@ -329,6 +329,10 @@ function getStore(config, router) {
       getRequestUrl: (state, getters) => (url, baseUrl = null, addLocalQueryParams = false) => {
         let absoluteUrl = Utils.toAbsolute(proxyUrl(url, state.stacProxyUrl), baseUrl ? baseUrl : state.url, false);
         if (!getters.isExternalUrl(absoluteUrl)) {
+          if (addLocalQueryParams && state.catalogUrlParams) {
+            absoluteUrl.query(state.catalogUrlParams);
+          }
+
           // Check whether private params are present and add them if the URL is part of the catalog
           addQueryIfNotExists(absoluteUrl, state.privateQueryParameters);
           // Check if we need to add global request params
