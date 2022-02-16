@@ -1,5 +1,6 @@
 module.exports = {
     catalogUrl: null,
+    catalogUrlParams: null,
     catalogTitle: "STAC Browser",
     catalogImage: null,
     allowExternalAccess: true, // Must be true if catalogUrl is not given
