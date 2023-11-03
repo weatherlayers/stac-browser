@@ -4,8 +4,8 @@
   "description": "A full-fledged UI in Vue for browsing and searching static STAC catalogs and STAC APIs.",
   "main": "src/main.js",
   "scripts": {
-    "start": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "start": "NODE_OPTIONS=--openssl-legacy-provider vue-cli-service serve",
+    "build": "NODE_OPTIONS=--openssl-legacy-provider vue-cli-service build",
     "build:report": "vue-cli-service build --report",
     "build:minimal": "vue-cli-service build --noSourceMaps",
     "lint": "vue-cli-service lint",
