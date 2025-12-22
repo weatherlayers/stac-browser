@@ -4,6 +4,14 @@ import { STAC } from 'stac-js'
 // For documentation see https://github.com/radiantearth/stac-browser/blob/main/docs/basemaps.md
 
 const BASEMAPS = {
+  carto_dark: [
+    {
+      url: 'https://tiles.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png',
+      is: 'XYZ',
+      title: 'CARTO Dark',
+      attribution: '© <a href="https://carto.com/about-carto/" target="_blank" rel="noopener">CARTO</a>, © <a href="http://www.openstreetmap.org/about/" target="_blank">OpenStreetMap</a> contributors'
+    },
+  ],
   earth: [
     {
       url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -69,7 +77,7 @@ export default function configureBasemap(stac, i18n) {
     targets = stac.getMetadata('ssys:targets');
   }
   if (!targets) {
-    targets = ['earth'];
+    targets = ['carto_dark', 'earth'];
   }
 
   let layers = [];
